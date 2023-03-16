@@ -1,0 +1,300 @@
+<body>
+<div class="makequiz">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark py-3">
+        <div class="container-md">   
+            <b-navbar-toggle target="nav-collapse" class="mr-auto"></b-navbar-toggle>
+            <b-navbar-brand class="mr-auto mt-1" href="/"><img src="../../assets/logo quizippy putih.png" alt="Logo Quizippy" width="120"></b-navbar-brand>
+            <b-collapse id="nav-collapse" is-nav>
+                <b-navbar-nav class="ml-md-auto">
+                    <a v-b-modal.modal-exit class="nav-item btn btn-primary main-button text-white rounded-pill mx-2" role="button">Exit</a>
+                    <a class="nav-item btn btn-primary text-white main-button rounded-pill mx-2" role="button" @click="validateSave">Done</a>
+                </b-navbar-nav>
+            </b-collapse>
+            <b-navbar-nav class="ml-md-auto">
+                
+            </b-navbar-nav>
+        </div>
+    </nav>  
+    <!-- Akhir Navbar -->
+
+    <div class="container">
+        <div>
+            <b-modal id="modal-pick" centered v-bind:title="pickTitle" hide-footer ref="modalPick">
+                <div class="container text-center">
+                    <b-button class="m-1" v-for="(cat, index) in pickList" :key="index" variant="outline-info" @click="pick(index)">{{cat}}</b-button>
+                </div>
+            </b-modal>
+        </div>
+        <div class="row row-info">
+            <div class="col-md-7">
+                <input type="text" class="form-control" v-model="infoQuiz.title" placeholder="Quiz Title">
+
+                <textarea class="form-control quiz-desc" v-model="infoQuiz.desc" placeholder="Add a description"></textarea>
+
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="card category">
+                            <div class="card-body card-small">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        Category
+                                    </div>
+        
+                                    <div class="col-md-5">
+                                        <b>{{infoQuiz.category}}</b>
+                                    </div>
+        
+                                    <div class="col-md-3 change" @click="showPick('category')">
+                                        <b>Change</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <b-button v-b-modal.modal-delete variant="danger mt-3" class="btnDelete">Delete Quiz</b-button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <input type="file" name="img[]" class="file" accept="image/*" ref="fileTitle" @change='savePictTitle'>
+                <img v-on:click="browseImg('title')" v-bind:src="baseUrl+/quizpicture/+infoQuiz.img" id="imgTitle"
+                    class="img-thumbnail gambar">
+            </div>
+        </div>
+
+        <div class="row row-setting">
+            <div class="col-md-2"></div>
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body card-small">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        Point
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <b>{{infoQuiz.point}}</b>
+                                    </div>
+
+                                    <div class="col-md-4 change" @click="showPick('point')">
+                                        <b>Change</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body card-small">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        Time
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <b>{{infoQuiz.time}}</b>
+                                    </div>
+
+                                    <div class="col-md-4 change" @click="showPick('time')">
+                                        <b>Change</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body card-small">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        Visibility
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <b>{{infoQuiz.visibel}}</b>
+                                    </div>
+
+                                    <div class="col-md-4 change" @click="showPick('visibel')">
+                                        <b>Change</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row row-make">
+            <div class="col-md-2 nomor">
+                <div class="card" v-for="(soal, index) in quiz" :key="index" @click="change(index)">
+                    <div class="card-body text-center" :class="{nomorSelect: index===iSelect, shadow: index===iSelect}">
+                        <h1 class="text-center">{{index+1}}</h1>
+
+                        <i v-if="index===iSelect && quiz.length>1" class="fas fa-trash" @click="deleteSoal(index)"></i>
+                    </div>
+                </div>
+
+                <div class="card add" @click="add">
+                    <div class="card-body">
+                        <h1 class="text-center">+</h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-10">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-2"></div>
+
+                            <div class="col-md-8">
+                                <input type="file" name="img[]" class="file" accept="image/*" ref="fileSoal"
+                                    @change='savePictSoal'>
+                                <img v-on:click="browseImg('soal')" src="@/assets/imgPlaceholder.png" id="imgSoal"
+                                    class="img-thumbnail gambar">
+                            </div>
+
+                            <div class="col-md-2"></div>
+                        </div>
+
+                        <input v-model="quiz[iSelect].Desc" type="text" class="form-control soal"
+                            placeholder="Enter an question">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-2"></div>
+
+                                    <div class="col-md-8 divJwb a text-center">
+                                        <h2>A</h2>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <input class="form-check-input radioJwb" type="radio"
+                                            v-model="quiz[iSelect].Answer" value="A">
+                                    </div>
+                                </div>
+
+                                <input v-model="quiz[iSelect].OpsiA" type="text" class="form-control opsi"
+                                    placeholder="Your description option">
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-2"></div>
+
+                                    <div class="col-md-8 divJwb b text-center">
+                                        <h2>B</h2>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <input class="form-check-input radioJwb" type="radio"
+                                            v-model="quiz[iSelect].Answer" value="B">
+                                    </div>
+                                </div>
+
+                                <input v-model="quiz[iSelect].OpsiB" type="text" class="form-control opsi"
+                                    placeholder="Your description option">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-2"></div>
+
+                                    <div class="col-md-8 divJwb c text-center">
+                                        <h2>C</h2>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <input class="form-check-input radioJwb" type="radio"
+                                            v-model="quiz[iSelect].Answer" value="C">
+                                    </div>
+                                </div>
+
+                                <input v-model="quiz[iSelect].OpsiC" type="text" class="form-control opsi"
+                                    placeholder="Your description option">
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-2"></div>
+
+                                    <div class="col-md-8 divJwb d text-center">
+                                        <h2>D</h2>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <input class="form-check-input radioJwb" type="radio"
+                                            v-model="quiz[iSelect].Answer" value="D">
+                                    </div>
+                                </div>
+
+                                <input v-model="quiz[iSelect].OpsiD" type="text" class="form-control opsi"
+                                    placeholder="Your description option">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Exit -->
+        <div>
+            <b-modal id="modal-exit" centered hide-footer title="Save Quiz">
+                <div class="containerr">
+                    <h3 class="text-center">Save this quiz before exit?</h3>
+                    <div class="text-right mt-4">
+                        <a class="btn btn-danger mr-2" role="button" href="/dashboard">Don't Save</a>
+                        <b-button class="btn-primary" @click="validateSave">Save</b-button>
+                    </div>
+                </div>
+            </b-modal>
+        </div>
+        <!-- Akhir Modal Exit -->
+
+         <!-- Modal Validate Judul-->
+         <div>
+            <b-modal centered ok-only title="Fill Title" ref="modalValidateTitle">
+                <div class="containerr">
+                    <h3 class="text-center">Please fill quiz title!</h3>
+                </div>
+            </b-modal>
+        </div>
+        <!-- Akhir Modal Validate Judul-->
+
+         <!-- Modal Validate Desc-->
+         <div>
+            <b-modal centered ok-only title="Fill Description" ref="modalValidateDesc">
+                <div class="containerr">
+                    <h3 class="text-center">Please fill quiz description!</h3>
+                </div>
+            </b-modal>
+        </div>
+        <!-- Akhir Modal Validate Desc-->
+
+         <!-- Modal Delete -->
+         <div>
+            <b-modal id="modal-delete" centered hide-footer title="Delete Quiz">
+                <div class="containerr">
+                    <h3 class="text-center">Delete this quiz?</h3>
+                    <div class="text-right mt-4">
+                        <b-button variant="danger mt-3" @click="deleteQuiz">Delete</b-button>
+                    </div>
+                </div>
+            </b-modal>
+        </div>
+        <!-- Akhir Modal Delete -->
+    </div>
+</div>
+</body>

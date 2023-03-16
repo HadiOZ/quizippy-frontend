@@ -1,0 +1,103 @@
+<body>
+<div class="dashboard">
+    <NavDashboard :active="0"/>
+    <div id="div-id2"></div>
+    <!-- Wellcome -->
+    <div class="container wellcome mt-5 mb-5" id="wellcome">
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <a href="/account">
+                    <div class="profil pt-4 pb-5">
+                        <img v-bind:src="dataUser.picture=='' ? require('@/assets/accountPlaceholder.png') : baseUrl+/profile/+dataUser.picture" class="card-img-top rounded-circle mt-5 mb-4" alt="...">
+                        <h5 class="name">{{dataUser.name}}</h5>
+                        <p class="title">{{dataUser.job}}</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-8">
+                <div class="news">
+                    <b-carousel id="carousel-1"
+                                v-model="slide" 
+                                :interval="4000" 
+                                controls 
+                                indicators
+                                style="text-shadow: 1px 1px 2px #333;"
+                                @sliding-start="onSlideStart"
+                                @sliding-end="onSlideEnd">
+                        <b-carousel-slide img-src="@/assets/news1.png"></b-carousel-slide>
+                        <b-carousel-slide img-src="@/assets/news2.png"></b-carousel-slide>
+                        <b-carousel-slide img-src="@/assets/news3.png"></b-carousel-slide>
+                    </b-carousel>
+                    <div class="text-wellcome">
+                        <h5>Welcome, {{dataUser.name.replace(/ .*/,'')}}</h5>
+                        <h4>News for you!</h4>
+                    </div>
+                    <div class="title-news text-center" @click='newsClick'>
+                        <h4>{{listNews[slide]}}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Akhir Wellcome -->
+     
+    <!-- Your Quiz -->
+    <div class="container listquiz mb-5">
+        <h3 class="mb-3">Your Quiz</h3>
+        <div class="row">
+            <div class="col-md-3 mb-5" v-for="(quiz, i) in listYourQuiz" :key="i">
+                <div class="card shadow">
+                    <a v-bind:href="'/makequiz?id='+quiz.id">
+                        <div class="card-body text-center pb-2">
+                            <div class="img-quiz">
+                                <img v-bind:src="quiz.picture=='' ? require('@/assets/imgPlaceholder.png') : baseUrl+/quizpicture/+quiz.picture">
+                                <div class="played p-1 pl-2 pr-2">{{(i+1)*135}} Played</div>
+                                <div class="overlay"></div>
+                                <a v-bind:href="'/play?roomcode='+getRoomCode()+'&idquiz='+quiz.id"><button type="button" class="btn btn-primary">Launch Quiz</button></a>
+                            </div>
+                            <h5 class="launch mt-2">{{quiz.title}}</h5>
+                            <p><a v-bind:href="'/summary?idquiz='+quiz.id">Show result</a></p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-5" v-if="listYourQuiz==null">
+                <div class="card shadow">
+                    <a href="/makequiz">
+                        <div class="card-body text-center pb-2">
+                            <h1 class="mt-5 mb-5">+</h1>
+                            <h5 class="mt-2">Create Quiz</h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Akhir Your Quiz -->
+
+    <!-- Template -->
+    <div class="container listquiz mb-5">
+        <h3 class="mb-4">Template from us</h3>
+        <div class="row">
+            
+            <div class="col-md-3 mb-5" v-for="(quiz, i) in listTemplate" :key="i">
+                <div class="card shadow">
+                    <div class="card-body text-center pb-2">
+                        <div class="img-quiz">
+                            <img v-bind:src="quiz.picture=='' ? require('@/assets/imgPlaceholder.png') : baseUrl+/quizpicture/+quiz.picture">
+                            <div class="played p-1 pl-2 pr-2">{{(i+1)*135}} Played</div>
+                            <div class="overlay"></div>
+                            <a v-bind:href="'/makequiz?template='+quiz.id"><button type="button" class="btn btn-primary">Use Template</button></a>
+                        </div>
+
+                        <h5 class="mt-2">{{quiz.title}}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Akhir Template -->
+    <QuiztFooter/>
+</div>
+</body>

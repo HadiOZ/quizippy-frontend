@@ -1,0 +1,30 @@
+<body>
+    <!-- Navbar -->
+    <nav class="navbar sticky-top navbar-expand-lg navbar-dark py-3">
+        <div class="container-md">   
+            <b-navbar-toggle target="nav-collapse" class="mr-auto ml-5"></b-navbar-toggle>
+            <b-navbar-brand class="mr-auto" href="/"><img src="../../assets/logo quizippy putih.png" alt="This is the quizippy logo" width="120"></b-navbar-brand>
+            <b-collapse id="nav-collapse" is-nav>
+                <b-navbar-nav class="ml-md-auto">
+                    <a href="/signup" class="nav-item btn btn-primary main-button rounded-pill mx-3" role="button">Done</a>
+                </b-navbar-nav>
+            </b-collapse>
+        </div>
+    </nav>  
+    <!-- Akhir Navbar -->
+
+    <!-- result -->
+    <section class="resultquiz">
+        <div class="container">
+            <div class="row text-center mt-5 mb-3">
+                <div class="col-md-12">
+                    <h3>Result</h3>
+                </div>
+            </div>
+            <div class="rank pb-5">
+                <card v-bind:item="cards"/>
+            </div>
+        </div>
+    </section>
+    <!-- akhir result -->
+</body>

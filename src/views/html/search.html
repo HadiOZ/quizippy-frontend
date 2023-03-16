@@ -1,0 +1,48 @@
+<div class="search">
+    <!-- Navbar -->
+    <nav class="navbar sticky-top navbar-expand-lg navbar-dark py-3">
+        <div class="container-md">   
+            <b-navbar-toggle target="nav-collapse" class="mr-auto ml-2"></b-navbar-toggle>
+            <b-navbar-brand class="logobrand mr-auto mt-1" href="/"><img src="../../assets/logo quizippy putih.png" alt="This is the quizippy logo" width="120"></b-navbar-brand>
+            <b-collapse id="nav-collapse" is-nav>
+                <b-navbar-nav>
+                    <a class="nav-item nav-link navlink2" href="/">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-item nav-link navlink2" href="/about">About Us</a> 
+                </b-navbar-nav>
+                <b-navbar-nav class="ml-md-auto">
+                    <a href="/signin" class="nav-item btn btn-outline-primary main-button rounded-pill mx-2" role="button">Sign In</a>
+                    <a href="/signup" class="nav-item btn btn-primary main-button rounded-pill mx-3" role="button">Sign Up</a>
+                </b-navbar-nav>
+            </b-collapse>
+        </div>
+    </nav>  
+    <!-- Akhir Navbar -->
+    <div id="div-id2"></div>
+
+    <!-- Search -->
+    <div class="container">
+        <div>
+            <input type="text" class="form-control shadow-none mt-2" placeholder="Search quiz" v-model="keySearch">
+            <span class="fas fa-search iconspan"></span>
+        </div>
+
+        <div class="row listquiz mt-5 mb-5">
+            <div class="col-md-3 mb-4" v-for="search in listSearch">
+                <div class="card shadow">
+                    <div class="card-body text-center">
+                        <div class="img-quiz">
+                            <img v-bind:src="search.picture=='' ? require('@/assets/imgPlaceholder.png') : baseUrl+/quizpicture/+search.picture">
+                            <div class="played p-1">{{search.played}} Played</div>
+                            <div class="overlay"></div>
+                            <a v-bind:href="idUser=='null' ? '/signin' : '/makequiz?template='+search.id"><button type="button" class="btn btn-primary">Use Template</button></a>
+                        </div>
+
+                        <h5 class="mt-2"><b>{{search.title}}</b></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Akhir Search -->
+    <QuiztFooter/>
+</div>

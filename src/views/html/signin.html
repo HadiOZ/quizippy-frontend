@@ -1,0 +1,59 @@
+<body>
+    <!-- SignIn -->
+    <section class="signin">
+        <div class="container">
+            <div id="signin">
+                <div class="row align-items-center">
+                    <div class="col-md-5 img-sign">
+                        <img src="../../assets/signin-img.png" alt="This is sign in image" width="100%">
+                    </div>
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-6">
+                        <div class="card shadow">
+                            <h1>Welcome</h1>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <p class="signoverview">Sign in to <span>Quizippy</span></p>
+                                </div>                                
+                            </div>
+                            <div class="row mb-4">
+                                <div class="col-lg-12">
+                                    <p class="signnew">New user? <a href="/signup">Create an account</a></p>
+                                </div>
+                            </div>
+                            <b-form @keyup.enter="login">
+                                <label for="emailAddress">Email Address</label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="emailAddress"                            
+                                    class="form-control"
+                                    v-model="input.email"
+                                    placeholder="Enter your email address"
+                                />   
+                                <label for="password">Password</label>
+                                <input
+                                    type="password"
+                                    id="pass"
+                                    name="password"                            
+                                    class="form-control"
+                                    v-model="input.password"
+                                    placeholder="*******"
+                                /> 
+                                <b-button 
+                                    id="submitLogin"
+                                    type="button"
+                                    @click="login()"
+                                    variant="primary"                             
+                                    class="rounded-pill mb-3 shadow">
+                                        Sign In
+                                </b-button>                               
+                            </b-form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Akhir SignIn -->
+</body>

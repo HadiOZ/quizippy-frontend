@@ -1,0 +1,40 @@
+<body>
+<div class="history">
+    <NavDashboard :active="2" />
+    <!-- History -->
+    <div class="container listquiz mb-5">
+        <div class="row mt-5">
+            <div class="col-md-3" v-for="history in listHistory">
+                <a href="/result">
+                    <div class="card shadow">
+                    <div class="card-body text-center">
+                        <img v-bind:src="require('@/assets/'+history.img)">
+                        <h5 class="mt-2 title">{{history.title}}</h5>
+                        <h6 class="mt-2 title">{{history.category}}</h6>
+                        <div class="row mt-4 ml-1 mr-1">
+                            <div class="col-md-6 info1">
+                                <div class="info">
+                                    {{history.correct}} Correct of {{history.total}}
+                                </div>
+                            </div>
+                            <div class="col-md-6 info2">
+                                <div class="info">
+                                    by {{history.author}}
+                                </div>
+                            </div>
+                        </div>
+                        <b-progress :max="history.total" class="progress m-3">
+                            <b-progress-bar :value="history.done" :label="`${((history.done / history.total) * 100)}%`" class="progressbar"></b-progress-bar>
+                        </b-progress>
+                        <div class="text-center finish p-1">
+                            {{ isFinished(history.done,history.total) }}
+                        </div>
+                    </div>
+                </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- Akhir History -->
+</div>
+</body>

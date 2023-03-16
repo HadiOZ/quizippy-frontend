@@ -1,0 +1,57 @@
+<body>
+<div>
+    <NavDashboard :active="1"/>
+    <!-- Achievement -->
+    <div class="container achieve pt-5">
+        <div class="row mb-3" v-for="achieve in listAchieve">
+            <div class="title-category col-md-5">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img v-bind:src="require('@/assets/'+achieve.img)">
+                            </div>
+                            <div class="col-md-9">
+                                <h4 class="title mt-2">{{achieve.title}}</h4>
+                                <h6 class="category mb-0">{{achieve.category}}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ranked col-md-5">
+                <div class="card rank" :class="{st:achieve.rank.includes('1'), nd:achieve.rank.includes('2'), rd:achieve.rank.includes('3')}">
+                    <div class="card-body">
+                        <div class="row ">
+                            <div class="col-7 corrct text-center">
+                                <h6>{{achieve.correct}} Correct of {{achieve.total}}</h6>
+                            </div>
+                            <div class="col-5 rank2 text-center">
+                                <h4>{{achieve.rank}} Rank</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <a v-b-modal.modal-share class="btn btn-primary text-white rounded-pill pl-4 pr-4 p-3" role="button">Share</a>
+            </div>
+        </div>
+
+        <!-- Modal Share -->
+        <div>
+            <b-modal id="modal-share" centered hide-footer title="Share Achievement" ref="modalShare">
+                <div class="container text-center">
+                    <p>Copy this link to share achievement</p>
+                    <h3>https://quizy.com/achievement/me</h3>
+                    <input type="hidden" id="shareurl" value="https://quizy.com/achievement/me">
+                    <a class="btn btn-primary text-white mt-2" role="button" @click="copyLink">Copy</a>
+                </div>
+            </b-modal>
+        </div>
+        <!-- Akhir Modal Share -->
+
+    </div>
+    <!-- Akhir Achievement -->
+</div>
+</body>
